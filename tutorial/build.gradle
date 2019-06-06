@@ -1,0 +1,39 @@
+// 当プロジェクトのbuild.grdle
+
+// 追加プラグイン
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+// 依存ライブラリのダウンロード先
+repositories {
+  jcenter()
+}
+
+// 依存関係
+dependencies {
+  implementation 'com.google.guava:guava:26.0-jre'
+  testImplementation 'junit:junit:4.12'
+}
+
+
+// ソースレイアウトの変更
+sourceSets {
+  main {
+  	java {
+  	  srcDir 'src/main/java'
+  	}
+  	resources {
+  	  srcDirs 'src/main/java','src/main/resources'
+  	  exclude '**/*.java'
+  	}
+  }
+  test {
+  	java {
+  		srcDir 'src/main/java'
+  	}
+  	resources {
+  	  srcDirs 'src/main/java','src/main/resources'
+  	  exclude '**/*.java'
+  	}
+  }
+}
