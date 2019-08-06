@@ -11,7 +11,7 @@ package shop;
  * @author onesword0618
  *
  */
-public abstract class Instrument {
+public class Instrument {
 
 	/**
 	 * シリアル番号

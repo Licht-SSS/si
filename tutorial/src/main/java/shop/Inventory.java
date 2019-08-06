@@ -39,22 +39,8 @@ public class Inventory {
 	 */
 	public void addInstrument(String serialNumber, double price, InstrumentSpec spec) {
 
-		/*
-		 * 渡されたパラメータによって何の楽器クラスのオブジェクトを生成するかを決める
-		 * 
-		 */
-		Instrument instrument = null;
-
-		// ギターオブジェクトだった場合
-		if (spec instanceof GuitarSpec) {
-			instrument = new Guitar(serialNumber, price, (GuitarSpec) spec);
-		}
-
-		// マンドリンオブジェクトだった場合
-		if (spec instanceof MandolinSpec) {
-			instrument = new Mandolin(serialNumber, price, (MandolinSpec) spec);
-		}
-
+		// 渡されたパラメータによって何の楽器クラスのオブジェクトを生成するかを決める
+		Instrument instrument = new Instrument(serialNumber, price, spec);
 		inventory.add(instrument);
 	}
 
@@ -79,53 +65,27 @@ public class Inventory {
 	}
 
 	/**
-	 * 指定した条件のギターを検索する<br>
+	 * 指定した条件の楽器を検索する<br>
 	 * 
 	 * @param searchSpec 検索している仕様
-	 * @return 合致しているギターオブジェクト
+	 * @return 合致している楽器オブジェクト
 	 */
-	public List<Guitar> search(GuitarSpec searchSpec) {
+	public List<Instrument> search(InstrumentSpec searchSpec) {
 
-		List<Guitar> matchingGuitars = new LinkedList<>();
+		List<Instrument> matchingInstruments = new LinkedList<>();
 
 		/*
 		 * Iteratorを利用したループ処理
 		 */
 		for (Iterator<Instrument> i = inventory.iterator(); i.hasNext();) {
 
-			// Iteratorを利用してリストのギターオブジェクトを取り出す
-			Guitar guitar = (Guitar) i.next();
+			// Iteratorを利用してリストの楽器オブジェクトを取り出す
+			Instrument instrument = (Instrument) i.next();
 
-			if (guitar.getSpec().matches(searchSpec))
-				matchingGuitars.add(guitar);
+			if (instrument.getSpec().matches(searchSpec))
+				matchingInstruments.add(instrument);
 		}
-		// 全てに合致しているギターオブジェクトを追加する
-		return matchingGuitars;
+		// 全てに合致している楽器オブジェクトを追加する
+		return matchingInstruments;
 	}
-
-	/**
-	 * 指定した条件のマンドリンを検索する<br>
-	 * 
-	 * @param searchSpec 検索している仕様
-	 * @return 合致しているマンドリンオブジェクト
-	 */
-	public List<Mandolin> search(MandolinSpec searchSpec) {
-
-		List<Mandolin> matchingMandolins = new LinkedList<>();
-
-		/*
-		 * Iteratorを利用したループ処理
-		 */
-		for (Iterator<Instrument> i = inventory.iterator(); i.hasNext();) {
-
-			// Iteratorを利用してリストのマンドリンオブジェクトを取り出す
-			Mandolin mandolin = (Mandolin) i.next();
-
-			if (mandolin.getSpec().matches(searchSpec))
-				matchingMandolins.add(mandolin);
-		}
-		// 全てに合致しているマンドリンオブジェクトを追加する
-		return matchingMandolins;
-	}
-
 }

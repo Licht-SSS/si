@@ -1,10 +1,8 @@
 package shop;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -17,61 +15,91 @@ public class FindInstrumentTest {
 	@Test
 	public void 楽器検索を行う() {
 
-		// ギターの在庫を設定する
+		// 楽器の在庫を設定する
 		Inventory inventory = new Inventory();
-		initialzeInventory(inventory);
+		initializeInventory(inventory);
 
-		// 顧客の検索条件を設定
-		GuitarSpec whatCustemerLikes = new GuitarSpec(Builder.FENDER, "Stratocastor", Type.ELECTRIC, Wood.ALDER,
-				Wood.ALDER, 6);
+		Map<String, String> properties = new HashMap<>();
+		properties.put("builder", Builder.GIBSON.getName());
+		properties.put("backWood", Wood.MAPLE.getName());
 
-		// 顧客の検索条件に合致するギターを在庫から探す
-		List<Guitar> guitars = inventory.search(whatCustemerLikes);
+		InstrumentSpec whatBryanLikes = new InstrumentSpec(properties);
 
-		List<String> actuals = new LinkedList<>();
+		List<Instrument> matchingInstruments = inventory.search(whatBryanLikes);
 
-		String actualGuitar1 = "You might like this" + " " + guitars.get(0).getSpec().getBuilder().getName() + " "
-				+ guitars.get(0).getSpec().getModel() + " " + guitars.get(0).getSpec().getType().getName() + " "
-				+ guitars.get(0).getSpec().getTopWood().getName() + " "
-				+ guitars.get(0).getSpec().getBackWood().getName() + " " + guitars.get(0).getSpec().getNumStrings()
-				+ " " + guitars.get(0).getPrice();
+		if (!matchingInstruments.isEmpty()) {
 
-		String actualGuitar2 = "You might like this" + " " + guitars.get(1).getSpec().getBuilder().getName() + " "
-				+ guitars.get(1).getSpec().getModel() + " " + guitars.get(1).getSpec().getType().getName() + " "
-				+ guitars.get(1).getSpec().getTopWood().getName() + " "
-				+ guitars.get(1).getSpec().getBackWood().getName() + " " + guitars.get(0).getSpec().getNumStrings()
-				+ " " + guitars.get(1).getPrice();
+			for (Instrument instrument : matchingInstruments) {
+				InstrumentSpec spec = instrument.getSpec();
 
-		actuals.add(actualGuitar1);
-		actuals.add(actualGuitar2);
+				System.out
+						.println("We have a " + spec.getProperty("instrumentType") + " with the following properties:");
 
-		// 期待しているのは下記の検索結果
-		List<String> expecteds = new LinkedList<>();
+				for (String propertyName : spec.getProperties().keySet()) {
 
-		String expectedGuitar1 = "You might like this" + " " + "Fender" + " " + "Stratocastor" + " " + "electric" + " "
-				+ "Alder" + " " + "Alder" + " " + 6 + " " + 150000.0;
-		String expectedGuitar2 = "You might like this" + " " + "Fender" + " " + "Stratocastor" + " " + "electric" + " "
-				+ "Alder" + " " + "Alder" + " " + 6 + " " + 100000.0;
+					if (propertyName.equals("instrumentType")) {
+						System.out.println("  You can have this " + spec.getProperty("instrumentType") + " for $"
+								+ instrument.getPrice() + "\n---");
+						continue;
+					}
+					System.out.println("    " + propertyName + ": " + spec.getProperty(propertyName));
 
-		expecteds.add(expectedGuitar1);
-		expecteds.add(expectedGuitar2);
-
-		// コンソールに出力
-		System.out.println(actuals);
-
-		// Verify -検証
-		// 期待値と異なっていた場合はエラーになる
-		assertThat(actuals, is(expecteds));
+				}
+			}
+		} else {
+			System.out.println("Sorry, Bryan, we have nothing for you.");
+		}
 	}
 
-	private static void initialzeInventory(Inventory inventory) {
+	private static void initializeInventory(Inventory inventory) {
+		Map<String, String> properties = new HashMap<>();
+		properties.put("instrumentType", InstrumentType.GUITAR.getName());
+		properties.put("builder", Builder.COLLINGS.getName());
+		properties.put("model", "CJ");
+		properties.put("type", Type.ACOUSTIC.getName());
+		properties.put("numStrings", "6");
+		properties.put("topWood", Wood.INDIAN_ROSEWOOD.getName());
+		properties.put("backWood", Wood.SITKA.getName());
+		inventory.addInstrument("11277", 3999.95, new InstrumentSpec(properties));
 
-		// 在庫を設定する
-		// ここで設定しているのはシリアル番号と値段以外は同じギター
-		GuitarSpec spec = new GuitarSpec(Builder.FENDER, "Stratocastor", Type.ELECTRIC, Wood.ALDER, Wood.ALDER, 6);
-		inventory.addInstrument("V95693", 150000, spec);
-		inventory.addInstrument("V95612", 100000, spec);
+		properties.put("builder", Builder.MARTIN.getName());
+		properties.put("model", "D-18");
+		properties.put("topWood", Wood.MAHOGANY.getName());
+		properties.put("backWood", Wood.ADIRONDACK.getName());
+		inventory.addInstrument("122784", 5495.95, new InstrumentSpec(properties));
 
+		properties.put("builder", Builder.FENDER.getName());
+		properties.put("model", "Stratocastor");
+		properties.put("type", Type.ELECTRIC.getName());
+		properties.put("topWood", Wood.ALDER.getName());
+		properties.put("backWood", Wood.ALDER.getName());
+		inventory.addInstrument("V95693", 1499.95, new InstrumentSpec(properties));
+		inventory.addInstrument("V9512", 1549.95, new InstrumentSpec(properties));
+
+		properties.put("builder", Builder.GIBSON.getName());
+		properties.put("model", "Les Paul");
+		properties.put("topWood", Wood.MAPLE.getName());
+		properties.put("backWood", Wood.MAPLE.getName());
+		inventory.addInstrument("70108276", 2295.95, new InstrumentSpec(properties));
+
+		properties.put("model", "SG '61 Reissue");
+		properties.put("topWood", Wood.MAHOGANY.getName());
+		properties.put("backWood", Wood.MAHOGANY.getName());
+		inventory.addInstrument("82765501", 1890.95, new InstrumentSpec(properties));
+
+		properties.put("instrumentType", InstrumentType.MANDOLIN.getName());
+		properties.put("type", Type.ACOUSTIC.getName());
+		properties.put("model", "F-5G");
+		properties.put("backWood", Wood.MAPLE.getName());
+		properties.put("topWood", Wood.MAPLE.getName());
+		properties.remove("numStrings");
+		inventory.addInstrument("9019920", 5495.99, new InstrumentSpec(properties));
+
+		properties.put("instrumentType", InstrumentType.BANJO.getName());
+		properties.put("model", "RB-3 Wreath");
+		properties.remove("topWood");
+		properties.put("numStrings", "5");
+		inventory.addInstrument("8900231", 2945.95, new InstrumentSpec(properties));
 	}
 
 }
