@@ -87,39 +87,11 @@ public class Inventory {
 			// Iteratorを利用してリストのギターオブジェクトを取り出す
 			Guitar guitar = i.next();
 
-			GuitarSpec guitarSpec = guitar.getSpec();
-			// 引数のギターオブジェクトの製造者と合致しているか
-			if (!searchSpec.getBuilder().equals(guitarSpec.getBuilder())) {
-				continue;
-			}
-
-			String model = searchSpec.getModel();
-			// 引数のギターオブジェクトの仕様と合致しているか
-			if ((model != null) && (!model.equals("")) && (!model.equals(guitarSpec.getModel()))) {
-				continue;
-			}
-
-			Type type = searchSpec.getType();
-			// 引数のギターオブジェクトの種別と合致しているか
-			if (!type.equals(guitarSpec.getType())) {
-				continue;
-			}
-
-			Wood backWood = searchSpec.getBackWood();
-			// 引数のギターオブジェクトの背面木材と合致しているか
-			if (!backWood.equals(guitarSpec.getBackWood())) {
-				continue;
-			}
-
-			Wood topWood = searchSpec.getTopWood();
-			// 引数のギターオブジェクトの前面木材と合致しているか
-			if (!topWood.equals(guitarSpec.getTopWood())) {
-				continue;
-
-			}
-			// 全てに合致しているギターオブジェクトを追加する
-			matchingGuitars.add(guitar);
+			if (guitar.getSpec().matches(searchSpec))
+				matchingGuitars.add(guitar);
 		}
+		// 全てに合致しているギターオブジェクトを追加する
 		return matchingGuitars;
 	}
+
 }
