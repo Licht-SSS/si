@@ -5,20 +5,10 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-/**
- * ギター検索用のテストクラス
- * 
- * @author onesword0618
- *
- */
 public class FindGuitarTest {
 
 	/**
 	 * ギターの検索が行えるかを検証する<br>
-	 * 
-	 * <p>
-	 * 実行するとわかるが、必ず失敗するので、慌てないように。
-	 * </p>
 	 * 
 	 */
 	@Test
@@ -29,7 +19,8 @@ public class FindGuitarTest {
 		initialzeInventory(inventory);
 
 		// 顧客の検索条件を設定
-		Guitar whatCustemerLikes = new Guitar("", 0, "fender", "Stratocastor", "electric", "Alder", "Alder");
+		Guitar whatCustemerLikes = new Guitar("", 0, Builder.FENDER.getName(), "Stratocastor", Type.ELECTRIC.getName(),
+				Wood.ALDER.getName(), Wood.ALDER.getName());
 
 		// 顧客の検索条件に合致するギターを在庫から探す
 		Guitar guitar = inventory.search(whatCustemerLikes);
@@ -62,11 +53,6 @@ public class FindGuitarTest {
 		assertThat(actual, is(expected));
 	}
 
-	/**
-	 * 倉庫にギターを設定する
-	 * 
-	 * @param inventory
-	 */
 	private static void initialzeInventory(Inventory inventory) {
 
 		// 在庫を設定する

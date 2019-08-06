@@ -82,7 +82,7 @@ public class Inventory {
 	 * @param searchGuita 検索しているギター
 	 * @return 合致しているギターオブジェクト
 	 */
-	public Guitar search(Guitar searchGuitar) {
+	public Guitar search(Guitar whatCustemerLikes) {
 
 		/*
 		 * Iteratorを利用したループ処理
@@ -92,27 +92,27 @@ public class Inventory {
 			// Iteratorを利用してリストのギターオブジェクトを取り出す
 			Guitar guitar = i.next();
 
-			String builder = searchGuitar.getBuilder();
+			String builder = whatCustemerLikes.getBuilder();
 			// 引数のギターオブジェクトの製造者と合致しているか
 			if ((builder != null) && (!builder.equals("")) && (!builder.equals(guitar.getBuilder())))
 				continue;
 
-			String model = searchGuitar.getModel();
+			String model = whatCustemerLikes.getModel();
 			// 引数のギターオブジェクトのモデルと合致しているか
 			if ((model != null) && (!model.equals("")) && (!model.equals(guitar.getModel())))
 				continue;
 
-			String type = searchGuitar.getType();
+			String type = whatCustemerLikes.getType();
 			// 引数のギターオブジェクトの種別と合致しているか
 			if ((type != null) && (!type.equals("")) && (!type.equals(guitar.getType())))
 				continue;
 
-			String backWood = searchGuitar.getBackWood();
+			String backWood = whatCustemerLikes.getBackWood();
 			// 引数のギターオブジェクトの背面木材と合致しているか
 			if ((backWood != null) && (!backWood.equals("")) && (!backWood.equals(guitar.getBackWood())))
 				continue;
 
-			String topWood = searchGuitar.getTopWood();
+			String topWood = whatCustemerLikes.getTopWood();
 			// 引数のギターオブジェクトの前面木材と合致しているか
 			if ((topWood != null) && (!topWood.equals("")) && (!topWood.equals(guitar.getTopWood())))
 				continue;
