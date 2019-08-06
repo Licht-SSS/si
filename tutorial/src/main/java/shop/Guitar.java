@@ -19,34 +19,14 @@ public class Guitar {
 	private String serialNumber;
 
 	/**
-	 * 製造者
-	 */
-	private String builder;
-
-	/**
-	 * モデル
-	 */
-	private String model;
-
-	/**
-	 * 種別
-	 */
-	private String type;
-
-	/**
-	 * 背面で利用する木材
-	 */
-	private String backWood;
-
-	/**
-	 * 前面で利用する木材
-	 */
-	private String topWood;
-
-	/**
 	 * 価格
 	 */
 	private double price;
+
+	/**
+	 * ギター仕様
+	 */
+	private GuitarSpec spec;
 
 	/**
 	 * コンストラクタ<br>
@@ -57,22 +37,13 @@ public class Guitar {
 	 * 
 	 * @param serialNumber シリアル番号
 	 * @param price        値段
-	 * @param builder      製造者
-	 * @param model        モデル
-	 * @param type         種別
-	 * @param backWood     背面木材
-	 * @param topWood      前面木材
+	 * @param spec         ギター仕様
 	 */
-	public Guitar(String serialNumber, double price, String builder, String model, String type, String backWood,
-			String topWood) {
+	public Guitar(String serialNumber, double price, GuitarSpec spec) {
 
 		this.serialNumber = serialNumber;
 		this.price = price;
-		this.builder = builder;
-		this.model = model;
-		this.type = type;
-		this.backWood = backWood;
-		this.topWood = topWood;
+		this.spec = spec;
 	}
 
 	/**
@@ -103,47 +74,11 @@ public class Guitar {
 	}
 
 	/**
-	 * オブジェクトが保持している製造者を提供する.<br>
+	 * オブジェクトが保持しているギター仕様オブジェクトを提供する.<br>
 	 * 
-	 * @return 保持している製造者
+	 * @return 保持しているギター仕様オブジェクト
 	 */
-	public String getBuilder() {
-		return builder;
-	}
-
-	/**
-	 * オブジェクトが保持しているモデルを提供する.<br>
-	 * 
-	 * @return 保持しているモデル
-	 */
-	public String getModel() {
-		return model;
-	}
-
-	/**
-	 * オブジェクトが保持している種別を提供する.<br>
-	 * 
-	 * @return 保持している種別
-	 */
-	public String getType() {
-		return type;
-	}
-
-	/**
-	 * オブジェクトが保持している背面木材を提供する.<br>
-	 * 
-	 * @return 保持している背面木材
-	 */
-	public String getBackWood() {
-		return backWood;
-	}
-
-	/**
-	 * オブジェクトが保持している前面木材を提供する.<br>
-	 * 
-	 * @return 保持している前面木材
-	 */
-	public String getTopWood() {
-		return topWood;
+	public GuitarSpec getSpec() {
+		return spec;
 	}
 }

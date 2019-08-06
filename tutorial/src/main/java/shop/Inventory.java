@@ -37,20 +37,13 @@ public class Inventory {
 	 * ギタークラスにパラメータを渡してギターオブジェクトを生成する.
 	 * </p>
 	 * 
-	 * 
 	 * @param serialNumber シリアル番号
 	 * @param price        価格
-	 * @param builder      製造者
-	 * @param model        モデル
-	 * @param type         種別
-	 * @param backWood     背面木材
-	 * @param topWood      前面木材
-	 * @see Guitar ギタークラス
+	 * @param spec         仕様
 	 */
-	public void addGuitar(String serialNumber, double price, String builder, String model, String type, String backWood,
-			String topWood) {
+	public void addGuitar(String serialNumber, double price, GuitarSpec spec) {
 		// ここで、ギタークラスのコンストラクタを呼び出してギターオブジェクトを生成している
-		Guitar guitar = new Guitar(serialNumber, price, builder, model, type, backWood, topWood);
+		Guitar guitar = new Guitar(serialNumber, price, spec);
 
 		// ギターオブジェクトを格納するリストに生成したギターオブジェクトを追加
 		guitars.add(guitar);
@@ -82,7 +75,7 @@ public class Inventory {
 	 * @param searchGuita 検索しているギター
 	 * @return 合致しているギターオブジェクト
 	 */
-	public List<Guitar> search(Guitar whatCustemerLikes) {
+	public List<Guitar> search(GuitarSpec searchSpec) {
 
 		List<Guitar> matchingGuitars = new LinkedList<>();
 
@@ -94,31 +87,36 @@ public class Inventory {
 			// Iteratorを利用してリストのギターオブジェクトを取り出す
 			Guitar guitar = i.next();
 
-			String builder = whatCustemerLikes.getBuilder();
+			GuitarSpec guitarSpec = guitar.getSpec();
 			// 引数のギターオブジェクトの製造者と合致しているか
-			if ((builder != null) && (!builder.equals("")) && (!builder.equals(guitar.getBuilder())))
+			if (!searchSpec.getBuilder().equals(guitarSpec.getBuilder())) {
 				continue;
+			}
 
-			String model = whatCustemerLikes.getModel();
-			// 引数のギターオブジェクトのモデルと合致しているか
-			if ((model != null) && (!model.equals("")) && (!model.equals(guitar.getModel())))
+			String model = searchSpec.getModel();
+			// 引数のギターオブジェクトの仕様と合致しているか
+			if ((model != null) && (!model.equals("")) && (!model.equals(guitarSpec.getModel()))) {
 				continue;
+			}
 
-			String type = whatCustemerLikes.getType();
+			Type type = searchSpec.getType();
 			// 引数のギターオブジェクトの種別と合致しているか
-			if ((type != null) && (!type.equals("")) && (!type.equals(guitar.getType())))
+			if (!type.equals(guitarSpec.getType())) {
 				continue;
+			}
 
-			String backWood = whatCustemerLikes.getBackWood();
+			Wood backWood = searchSpec.getBackWood();
 			// 引数のギターオブジェクトの背面木材と合致しているか
-			if ((backWood != null) && (!backWood.equals("")) && (!backWood.equals(guitar.getBackWood())))
+			if (!backWood.equals(guitarSpec.getBackWood())) {
 				continue;
+			}
 
-			String topWood = whatCustemerLikes.getTopWood();
+			Wood topWood = searchSpec.getTopWood();
 			// 引数のギターオブジェクトの前面木材と合致しているか
-			if ((topWood != null) && (!topWood.equals("")) && (!topWood.equals(guitar.getTopWood())))
+			if (!topWood.equals(guitarSpec.getTopWood())) {
 				continue;
 
+			}
 			// 全てに合致しているギターオブジェクトを追加する
 			matchingGuitars.add(guitar);
 		}

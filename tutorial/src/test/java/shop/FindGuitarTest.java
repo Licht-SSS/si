@@ -22,21 +22,23 @@ public class FindGuitarTest {
 		initialzeInventory(inventory);
 
 		// 顧客の検索条件を設定
-		Guitar whatCustemerLikes = new Guitar("", 0, Builder.FENDER.getName(), "Stratocastor", Type.ELECTRIC.getName(),
-				Wood.ALDER.getName(), Wood.ALDER.getName());
+		GuitarSpec whatCustemerLikes = new GuitarSpec(Builder.FENDER, "Stratocastor", Type.ELECTRIC, Wood.ALDER,
+				Wood.ALDER);
 
 		// 顧客の検索条件に合致するギターを在庫から探す
 		List<Guitar> guitars = inventory.search(whatCustemerLikes);
 
 		List<String> actuals = new LinkedList<>();
 
-		String actualGuitar1 = "You might like this" + " " + guitars.get(0).getBuilder() + " "
-				+ guitars.get(0).getModel() + " " + guitars.get(0).getType() + " " + guitars.get(0).getTopWood() + " "
-				+ guitars.get(0).getBackWood() + " " + guitars.get(0).getPrice();
+		String actualGuitar1 = "You might like this" + " " + guitars.get(0).getSpec().getBuilder().getName() + " "
+				+ guitars.get(0).getSpec().getModel() + " " + guitars.get(0).getSpec().getType().getName() + " "
+				+ guitars.get(0).getSpec().getTopWood().getName() + " "
+				+ guitars.get(0).getSpec().getBackWood().getName() + " " + guitars.get(0).getPrice();
 
-		String actualGuitar2 = "You might like this" + " " + guitars.get(1).getBuilder() + " "
-				+ guitars.get(1).getModel() + " " + guitars.get(1).getType() + " " + guitars.get(1).getTopWood() + " "
-				+ guitars.get(1).getBackWood() + " " + guitars.get(1).getPrice();
+		String actualGuitar2 = "You might like this" + " " + guitars.get(1).getSpec().getBuilder().getName() + " "
+				+ guitars.get(1).getSpec().getModel() + " " + guitars.get(1).getSpec().getType().getName() + " "
+				+ guitars.get(1).getSpec().getTopWood().getName() + " "
+				+ guitars.get(1).getSpec().getBackWood().getName() + " " + guitars.get(1).getPrice();
 
 		actuals.add(actualGuitar1);
 		actuals.add(actualGuitar2);
@@ -69,8 +71,10 @@ public class FindGuitarTest {
 
 		// 在庫を設定する
 		// ここで設定しているのはシリアル番号と値段以外は同じギター
-		inventory.addGuitar("V95693", 150000, "Fender", "Stratocastor", "electric", "Alder", "Alder");
-		inventory.addGuitar("V95612", 100000, "Fender", "Stratocastor", "electric", "Alder", "Alder");
+		GuitarSpec spec = new GuitarSpec(Builder.FENDER, "Stratocastor", Type.ELECTRIC, Wood.ALDER, Wood.ALDER);
+		inventory.addGuitar("V95693", 150000, spec);
+		inventory.addGuitar("V95612", 100000, spec);
+
 	}
 
 }
