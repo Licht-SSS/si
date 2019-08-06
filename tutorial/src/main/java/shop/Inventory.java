@@ -82,7 +82,9 @@ public class Inventory {
 	 * @param searchGuita 検索しているギター
 	 * @return 合致しているギターオブジェクト
 	 */
-	public Guitar search(Guitar whatCustemerLikes) {
+	public List<Guitar> search(Guitar whatCustemerLikes) {
+
+		List<Guitar> matchingGuitars = new LinkedList<>();
 
 		/*
 		 * Iteratorを利用したループ処理
@@ -117,9 +119,9 @@ public class Inventory {
 			if ((topWood != null) && (!topWood.equals("")) && (!topWood.equals(guitar.getTopWood())))
 				continue;
 
-			// 全てに合致しているギターオブジェクトを提供する
-			return guitar;
+			// 全てに合致しているギターオブジェクトを追加する
+			matchingGuitars.add(guitar);
 		}
-		return null;
+		return matchingGuitars;
 	}
 }
