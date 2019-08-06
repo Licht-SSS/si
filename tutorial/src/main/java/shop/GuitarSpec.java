@@ -6,32 +6,7 @@ package shop;
  * @author onesword0618
  *
  */
-public class GuitarSpec {
-
-	/**
-	 * 製造者
-	 */
-	private Builder builder;
-
-	/**
-	 * モデル
-	 */
-	private String model;
-
-	/**
-	 * 種別
-	 */
-	private Type type;
-
-	/**
-	 * 背面木材
-	 */
-	private Wood backWood;
-
-	/**
-	 * 前面木材
-	 */
-	private Wood topWood;
+public class GuitarSpec extends InstrumentSpec {
 
 	/**
 	 * 弦の数
@@ -40,7 +15,7 @@ public class GuitarSpec {
 
 	/**
 	 * コンストラクタ<br>
-	 * ギター仕様オブジェクトを生成する際に渡された引数をもとにオンスタンスを生成する<br>
+	 * ギター仕様オブジェクトを生成する際に渡された引数をもとにインスタンスを生成する<br>
 	 * 
 	 * @param builder    製造者
 	 * @param model      モデル
@@ -50,61 +25,14 @@ public class GuitarSpec {
 	 * @param numStrings 弦の数
 	 */
 	public GuitarSpec(Builder builder, String model, Type type, Wood backWood, Wood topWood, int numStrings) {
-		this.builder = builder;
-		this.model = model;
-		this.type = type;
-		this.backWood = backWood;
-		this.topWood = topWood;
+
+		// 継承先の呼び出し
+		super(builder, model, type, backWood, topWood);
 		this.numStrings = numStrings;
 	}
 
 	/**
-	 * オブジェクトが保持している製造者を提供する
-	 * 
-	 * @return オブジェクトが保持している製造者
-	 */
-	public Builder getBuilder() {
-		return builder;
-	}
-
-	/**
-	 * オブジェクトが保持しているモデルを提供する
-	 * 
-	 * @return オブジェクトが保持しているモデル
-	 */
-	public String getModel() {
-		return model;
-	}
-
-	/**
-	 * オブジェクトが保持している種別を提供する
-	 * 
-	 * @return オブジェクトが保持している種別
-	 */
-	public Type getType() {
-		return type;
-	}
-
-	/**
-	 * オブジェクトが保持している背面木材を提供する
-	 * 
-	 * @return オブジェクトが保持している背面木材
-	 */
-	public Wood getBackWood() {
-		return backWood;
-	}
-
-	/**
-	 * オブジェクトが保持している前面木材を提供する
-	 * 
-	 * @return オブジェクトが保持している前面木材
-	 */
-	public Wood getTopWood() {
-		return topWood;
-	}
-
-	/**
-	 * オブジェクトが保持している弦の数を提供する
+	 * オブジェクトが保持している弦の数を提供する.
 	 * 
 	 * @return オブジェクトが保持している弦の数
 	 */
@@ -113,40 +41,29 @@ public class GuitarSpec {
 	}
 
 	/**
-	 * 指定した条件が合致するか<br>
+	 * 指定した条件が合致するか.
 	 * 
 	 * @param otherSpec 指定された仕様
 	 * @return 合致した場合、true それ以外はfalse
 	 */
-	public boolean matches(GuitarSpec otherSpec) {
+	@Override
+	public boolean matches(InstrumentSpec otherSpec) {
 
-		// 製造者が一致しているか
-		if (builder != otherSpec.builder) {
+		// 仕様が一致しているか
+		if (!super.matches(otherSpec)) {
 			return false;
 		}
 
-		// モデルが一致しているか
-		if ((model != null) && (!model.equals("")) && (!model.equals(otherSpec.getModel()))) {
+		// オブジェクトの型が同じかどうか
+		if (!(otherSpec instanceof GuitarSpec)) {
 			return false;
 		}
 
-		// 種別が一致しているか
-		if (type != otherSpec.type) {
-			return false;
-		}
+		// ダウンキャスト 親クラスから子クラスへ
+		GuitarSpec spec = (GuitarSpec) otherSpec;
 
 		// 弦の数が一致しているか
-		if (numStrings != otherSpec.numStrings) {
-			return false;
-		}
-
-		// 背面木材が一致しているか
-		if (backWood != otherSpec.backWood) {
-			return false;
-		}
-
-		// 前面木材が一致しているか
-		if (topWood != otherSpec.topWood) {
+		if (numStrings != spec.numStrings) {
 			return false;
 		}
 		return true;
