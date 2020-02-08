@@ -32,3 +32,4 @@ bin
 *.swp
 *.bak
 .recommenders
+/tutorial/.nb-gradle/
